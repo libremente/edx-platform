@@ -86,6 +86,9 @@ urlpatterns += patterns(
     url(r'^utility/captions/{}$'.format(settings.COURSE_KEY_PATTERN), 'utility_captions_handler'),
     url(r'^utility/bulksettings/{}$'.format(settings.COURSE_KEY_PATTERN), 'utility_bulksettings_handler'),
     url(r'^home/?$', 'course_listing', name='home'),
+
+    url(r'^home_library/?$', 'library_listing', name='home_library'),
+
     url(
         r'^course/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
         'course_search_index_handler',
