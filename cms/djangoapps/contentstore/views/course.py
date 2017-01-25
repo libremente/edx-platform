@@ -460,7 +460,10 @@ def course_listing(request):
     List all courses available to the logged in user
     """
     courses, in_process_course_actions = get_courses_accessible_to_user(request)
-    libraries = _accessible_libraries_list(request.user) if LIBRARIES_ENABLED else []
+    if not settings.SPLIT_STUDIO_HOME and LIBRARIES_ENABLED:
+        libraries = _accessible_libraries_list(request.user)
+    else:
+        libraries = []
 
     programs_config = ProgramsApiConfig.current()
     raw_programs = get_programs(request.user) if programs_config.is_studio_tab_enabled else []
