@@ -511,6 +511,7 @@ def course_listing(request):
 
     return render_to_response('index.html', {
         'courses': courses,
+        'split_studio_home': settings.SPLIT_STUDIO_HOME,
         'in_process_course_actions': in_process_course_actions,
         'libraries_enabled': LIBRARIES_ENABLED,
         'libraries': [format_library_for_view(lib) for lib in libraries],

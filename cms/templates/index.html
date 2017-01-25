@@ -280,10 +280,22 @@
 
       % if libraries_enabled or is_programs_enabled:
       <ul id="course-index-tabs">
-        <li class="courses-tab active"><a href="/home">${_("Courses")}</a></li>
+        <li class="courses-tab active">
+          % if split_studio_home:
+            <a href="/home">${_("Courses")}</a>
+          % else:
+            <a>${_("Courses")}</a>
+          % endif
+        </li>
 
         % if libraries_enabled:
-          <li class="libraries-tab"><a href="/home_library">${_("Libraries")}</a></li>
+          <li class="libraries-tab">
+            % if split_studio_home:
+              <a href="/home_library">${_("Libraries")}</a>
+            % else:
+              <a>${_("Libraries")}</a>
+            % endif
+          </li>
         % endif
 
         % if is_programs_enabled:
