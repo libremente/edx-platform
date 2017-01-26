@@ -86,9 +86,6 @@ urlpatterns += patterns(
     url(r'^utility/captions/{}$'.format(settings.COURSE_KEY_PATTERN), 'utility_captions_handler'),
     url(r'^utility/bulksettings/{}$'.format(settings.COURSE_KEY_PATTERN), 'utility_bulksettings_handler'),
     url(r'^home/?$', 'course_listing', name='home'),
-
-    url(r'^home_library/?$', 'library_listing', name='home_library'),
-
     url(
         r'^course/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
         'course_search_index_handler',
@@ -141,6 +138,11 @@ if settings.SHIB_ONLY_SITE:
     urlpatterns += (
         url(r'^backup_signup$', 'contentstore.views.signup', name='backup_signup'),
         url(r'^backup_signin$', 'contentstore.views.login_page', name='backup_login'),
+    )
+
+if settings.SPLIT_STUDIO_HOME:
+    urlpatterns += (
+        url(r'^home_library/?$', 'library_listing', name='home_library'),
     )
 
 if settings.FEATURES.get('ENABLE_EXPORT_GIT'):

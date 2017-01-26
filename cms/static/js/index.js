@@ -159,11 +159,11 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             $('.action-reload').bind('click', ViewUtils.reload);
 
             var courseTabHref = $('#course-index-tabs .courses-tab a').attr('href');
-            if (typeof courseTabHref === typeof undefined || courseTabHref === false) {
+            if (!courseTabHref) {
                 $('#course-index-tabs .courses-tab').bind('click', showTab('courses'));
             }
             var libraryTabHref = $('#course-index-tabs .libraries-tab a').attr('href');
-            if (typeof libraryTabHref === typeof undefined || libraryTabHref === false) {
+            if (!libraryTabHref) {
                 $('#course-index-tabs .libraries-tab').bind('click', showTab('libraries'));
             }
             $('#course-index-tabs .programs-tab').bind('click', showTab('programs'));
