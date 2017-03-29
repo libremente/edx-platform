@@ -51,6 +51,9 @@ def run():
 
     add_mimetypes()
 
+    # Enable XBlock translations 
+    enable_locale_discovery() 
+
     # Mako requires the directories to be added after the django setup.
     microsite.enable_microsites(log)
 
@@ -133,3 +136,32 @@ def enable_third_party_auth():
 
     from third_party_auth import settings as auth_settings
     auth_settings.apply_settings(settings)
+
+def enable_locale_discovery():
+    """ 
+    Enables Django to see and apply the translations in the XBlocks
+    After retrying all the xblocks currently installed, it checks whether a
+    `translations` folder exists and adds it to the LOCALE_PATHS list. 
+    """
+    import inspect, os
+    from xblock.core import XBlock
+
+    # Folder name where the XBlocks' translations are located
+    locale_folder = 'translations'
+    # Retry list of loaded XBlocks
+    xblocks_list = XBlock.load_classes()
+    for name, class_  in xblocks_list:
+        # For each XBlock, get the absolute path of the compiled file 
+        xblock_install_path = inspect.getfile(class_)
+        # Paths have a recurrent form:
+        # `/edx/app/edxapp/<install_path>/<xblock>/<xblock>/xblock.pyc`
+        # Strip first '/edx/app/edxapp/' and last 'xblock.pyc' from the path
+        stripped_path = xblock_install_path.split('/edx/app/edxapp/',1)[1].rsplit('/',1)[0]
+        # Build path using ENV_ROOT
+        translated_url = settings.ENV_ROOT / stripped_path / locale_folder
+        # Check if the folder exists and if it is not empty
+        if(os.path.isdir(translated_url) and os.listdir(translated_url)):
+            # Check for unicity and then add to LOCALE_PATHS
+            if(translated_url not in settings.LOCALE_PATHS):
+                settings.LOCALE_PATHS = ( translated_url , ) + settings.LOCALE_PATHS
+
